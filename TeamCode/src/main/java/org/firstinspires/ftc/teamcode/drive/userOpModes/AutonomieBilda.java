@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.Vision.EasyOpenVision;
 
-@Autonomous(name = "AutonomieMain")
-public class AutonomieA_Rosu extends LinearOpMode {
+@Autonomous(name = "AutonomieBilda")
+public class AutonomieBilda extends LinearOpMode {
 
     int position = 0;
 
@@ -36,30 +36,6 @@ public class AutonomieA_Rosu extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setPoseEstimate(startPos);
-        //EasyOpenVision.initEasyVision(hardwareMap);
-
-
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
-        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        //intake = hardwareMap.get(DcMotor.class, "intake");
-
-
-        arm = hardwareMap.get(DcMotor.class, "wobble");
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-        shooterServo = hardwareMap.get(Servo.class, "shooterServo");
-        shooterServo.setPosition(0.0);
-
-
-        armServoUp = hardwareMap.get(Servo.class, "wobbleServoSus");
-        armServoUp.setPosition(0.0);
-
-
-        armServoDown = hardwareMap.get(Servo.class, "wobbleServoJos");
-        armServoDown.setPosition(1.0);
     }
 
     public void shoot() {
@@ -112,7 +88,8 @@ public class AutonomieA_Rosu extends LinearOpMode {
 
     public Trajectory toCameraScan(Pose2d startPos) {
         return drive.trajectoryBuilder(startPos)
-                .lineTo(new Vector2d(-22, -17))
+                //.lineTo(new Vector2d(-22, -17))
+                .forward(48)
                 .build();
     }
 
@@ -178,16 +155,11 @@ public class AutonomieA_Rosu extends LinearOpMode {
 
 
         drive.followTrajectory(toCameraScan(startPos));
-        //position = EasyOpenVision.getDetectedPosition();
 
         telemetry.addData("Pozitie:", position);
         telemetry.update();
 
         drive.followTrajectory(toShootingSpot(toCameraScan(startPos).end()));
-
-        for(int i = 0 ; i < 3 ; i++) {
-            shoot();
-        }
 
         switch(position) {
             case 0:
@@ -205,24 +177,14 @@ public class AutonomieA_Rosu extends LinearOpMode {
                 break;
         }
 
-        move(135, true);
-        ASUPosition(true);
-        ASDPosition(true);
-
         switch(position) {
             case 0:
                 drive.followTrajectory(leaveWobbleDrop());
                 drive.turn(Math.toRadians(90));
-                move(135, false);
-                ASUPosition(true);
-                ASDPosition(true);
                 break;
             case 1:
                 drive.followTrajectory(leaveWobbleDrop());
                 drive.followTrajectory(toParkingSpot(leaveWobbleDrop()));
-                move(135, false);
-                ASUPosition(true);
-                ASDPosition(true);
                 break;
             case 4:
                 drive.followTrajectory(leaveWobbleDrop());

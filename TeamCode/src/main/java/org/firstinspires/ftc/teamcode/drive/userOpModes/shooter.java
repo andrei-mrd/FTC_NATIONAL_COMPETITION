@@ -16,6 +16,7 @@ public class shooter extends LinearOpMode {
     DcMotor intake;
     Servo wobbleServoSus;
     Servo wobbleServoJos;
+    Servo shooterServo;
     public void initialize() {
         //leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         //rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -24,10 +25,11 @@ public class shooter extends LinearOpMode {
         shooter = hardwareMap.get(DcMotor.class, "shooter");
         intake = hardwareMap.get(DcMotor.class, "intake");
 
-        wobbleServoSus = hardwareMap.get(Servo.class, "wobbleServoSus");
-        wobbleServoJos = hardwareMap.get(Servo.class, "wobbleServoJos");
+        //wobbleServoSus = hardwareMap.get(Servo.class, "wobbleServoSus");
+        //wobbleServoJos = hardwareMap.get(Servo.class, "wobbleServoJos");
 
-        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        //shooterServo = hardwareMap.get(Servo.class, "shooterServo");
+        //shooter.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,22 +50,7 @@ public class shooter extends LinearOpMode {
                 intake.setPower(0);
             }
 
-
-            if(gamepad1.a) {
-                directie = 2;
-            }
-
-            if(gamepad1.x) {
-                directie = 1;
-            }
-
-            if(directie == 1) {
-                wobbleServoSus.setPosition(1);
-                wobbleServoJos.setPosition(0);
-            } else if(directie == 2) {
-                wobbleServoSus.setPosition(0);
-                wobbleServoJos.setPosition(1);
-            }
+            shooter.setPower(-gamepad1.left_stick_y);
 
             telemetry.addData("Directie", directie);
             telemetry.update();
