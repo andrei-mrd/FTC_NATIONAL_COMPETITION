@@ -40,7 +40,7 @@ public class EasyOpenVision
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(STREAM_WIDTH,STREAM_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(STREAM_WIDTH,STREAM_HEIGHT, OpenCvCameraRotation.UPSIDE_DOWN);
             }
         });
     }
