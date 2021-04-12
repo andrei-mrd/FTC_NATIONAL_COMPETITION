@@ -12,6 +12,7 @@ public class TeleOpBilda extends LinearOpMode {
     DcMotor rightFront;
     DcMotor leftRear;
     DcMotor rightRear;
+    DcMotor intake;
 
     float G1Y1, G1X1, G1X2;
 
@@ -23,6 +24,8 @@ public class TeleOpBilda extends LinearOpMode {
         leftRear = hardwareMap.get(DcMotor.class, "leftRear");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        intake = hardwareMap.get(DcMotor.class, "intake");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -54,6 +57,12 @@ public class TeleOpBilda extends LinearOpMode {
             leftRear.setPower(G1Y1 - G1X1 + G1X2);
             rightFront.setPower(G1Y1 - G1X1 - G1X2);
             rightRear.setPower(G1Y1 + G1X1 - G1X2);
+
+            if(gamepad1.left_trigger > 0) {
+                intake.setPower(gamepad1.left_trigger);
+            } else if(gamepad1.right_trigger > 0){
+                intake.setPower(-gamepad1.right_trigger);
+            }
         }
     }
 }

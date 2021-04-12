@@ -8,16 +8,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOpSample")
-public class TeleOpSample extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOpAndrei")
+public class TeleOpAndrey extends LinearOpMode {
     DcMotor shooter;
     DcMotor intake;
     DcMotor wobble;
     Servo wobbleServoSus;
     Servo wobbleServoJos;
     Servo shooterServo;
-
-    boolean power;
 
     double runtimeActual = -2000;
     ElapsedTime runtime = new ElapsedTime();
@@ -58,8 +56,8 @@ public class TeleOpSample extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         initialize();
 
-        double highGoalCap = 1;
-        double powerShotCap = 0.85;
+        double highGoalCap = 0.91;
+        double powerShotCap = 0.79;
 
         double power1;
         double power2;
@@ -81,33 +79,31 @@ public class TeleOpSample extends LinearOpMode {
             double wobblePower = 0.25;
             double intakePower = 0.9;
 
-            if(gamepad1.left_bumper) {
-                power = true;
-            } else if(gamepad1.right_bumper) {
-                power = false;
-            }
 
-            if(power) {
-                power1 = gamepad1.left_trigger * highGoalCap;
-                power2 = gamepad1.right_trigger * highGoalCap;
-            } else {
-                power1 = gamepad1.left_trigger * powerShotCap;
-                power2 = gamepad1.right_trigger * powerShotCap;
-            }
+            power1 = gamepad1.left_trigger * powerShotCap;
+            power2 = gamepad1.right_trigger * highGoalCap;
 
-            if(gamepad1.b) {
-                powerTurn();
+            if(gamepad1.left_bumper && (runtime.milliseconds() - runtimeActual > 500)) {
+                powerShotCap -= 0.01;
+                runtimeActual = runtime.milliseconds();
+            } else if(gamepad1.right_bumper && (runtime.milliseconds() - runtimeActual > 500)) {
+                powerShotCap += 0.01;
+                runtimeActual = runtime.milliseconds();
             }
 
             if(gamepad1.a) {
-                shooterServo.setPosition(1); //0.5
-            } else if(gamepad1.y) {
+                powerTurn();
+            }
+
+            if(gamepad1.b) {
+                shooterServo.setPosition(0.5);
+                sleep(300);
                 shooterServo.setPosition(0);
             }
 
-            if(gamepad2.dpad_up) {
+            if(gamepad2.dpad_down) {
                 wobble.setPower(wobblePower);
-            } else if(gamepad2.dpad_down) {
+            } else if(gamepad2.dpad_up) {
                 wobble.setPower(-wobblePower);
             } else {
                 wobble.setPower(0);
@@ -133,7 +129,7 @@ public class TeleOpSample extends LinearOpMode {
             if(power1 > 0) {
                 shooter.setPower(power1);
             } else if(power2 > 0){
-                shooter.setPower(-power2);
+                shooter.setPower(power2);
             } else {
                 shooter.setPower(0);
             }
@@ -173,12 +169,9 @@ public class TeleOpSample extends LinearOpMode {
                 fata = 2;
             }
 
-            if(power) {
-                telemetry.addData("Putere Max", highGoalCap);
-            } else {
-                telemetry.addData("Putere Max", powerShotCap);
-            }
             telemetry.addData("Fata:", fata);
+            telemetry.addData("highGoal", highGoalCap);
+            telemetry.addData("powerShot", powerShotCap);
             telemetry.update();
         }
     }
