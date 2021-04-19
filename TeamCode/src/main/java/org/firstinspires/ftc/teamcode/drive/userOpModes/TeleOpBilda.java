@@ -17,8 +17,8 @@ public class TeleOpBilda extends LinearOpMode {
     //global variables
     double powerCap = 1;
     double positionLeft, positionRight, launchPosition;
-    double lowestPositionLeft = 0, highestPositionLeft = 1;
-    double lowestPositionRight = 0, highestPositionRight = 1;
+    double lowestPositionLeft = 0, highestPositionLeft = 0.25;
+    double lowestPositionRight = 0, highestPositionRight = 0.25;
 
     //sasiu
     DcMotor leftFront;
@@ -40,9 +40,9 @@ public class TeleOpBilda extends LinearOpMode {
     float G1Y1, G1X1, G1X2;
 
     public void resetShooterPosition() {
-        positionLeft = 0.7;
+        positionLeft = 0;
         shooterLeft.setPosition(positionLeft);
-        positionRight = 0.7;
+        positionRight = 0;
         shooterRight.setPosition(positionRight);
     }
 
