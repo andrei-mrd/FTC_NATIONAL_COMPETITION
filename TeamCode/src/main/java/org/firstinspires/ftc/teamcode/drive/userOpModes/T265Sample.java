@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive.userOpModes;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Transform2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
@@ -20,6 +21,7 @@ public class T265Sample extends OpMode {
     SampleMecanumDrive drive;
     double G1Y1, G1X1, G1X2;
     double LF, LR, RF, RR;
+    final double INCH_TO_METERS = 0.0254;
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -28,7 +30,11 @@ public class T265Sample extends OpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(slamra == null) {
-            slamra = new T265Camera(new Transform2d(new Translation2d(0.225, 0), new Rotation2d(0)), 0, hardwareMap.appContext);
+            //initializam camera si comunicam pozitia centrului camerei fata de centrul robotului
+            slamra = new T265Camera(new Transform2d(new Translation2d(-0.225, 0), new Rotation2d(0)), 0, hardwareMap.appContext);
+            //comunicam camerei pozitia de start pe teren
+            //DIMENSIUNILE SUNT IN METRI, PENTRU VALORI IN INCH MULTIPLICAM CU VARIABILA "INCH_TO_METERS"
+            slamra.setPose(new Pose2d(new Translation2d(-72 * INCH_TO_METERS, 0), new Rotation2d(0)));
         }
     }
 
