@@ -119,7 +119,7 @@ public class TeleOpBilda extends LinearOpMode {
      * Functie apelata la finalul initializarii pentru a readuce servo-ul de lansare pe pozitia de start
      */
     public void resetLaunchPosition() {
-        launchPosition = 0.47;
+        launchPosition = 0.46;
         launchServo.setPosition(launchPosition);
     }
 
