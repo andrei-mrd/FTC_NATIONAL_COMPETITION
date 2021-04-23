@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo5u;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.Vision.EasyOpenVision;
 
-@Autonomous(name = "AngleAdjusting")
-public class AngleAdjusting extends LinearOpMode {
+@Autonomous(name = "AutonomieMainPowerShots")
+public class AutonomieMainPowerShots extends LinearOpMode {
 
     int position = 0;
 
@@ -58,13 +58,14 @@ public class AngleAdjusting extends LinearOpMode {
         armServoUp.setPosition(0.0);
 
 
+
         armServoDown = hardwareMap.get(Servo.class, "wobbleServoJos");
         armServoDown.setPosition(1.0);
     }
 
     public void shoot() {
-        shooter.setPower(1);
-        sleep(1000);
+        shooter.setPower(0.85);
+        sleep(2000);
         shooterServo.setPosition(1);
         sleep(500);
         shooter.setPower(0);
@@ -112,37 +113,31 @@ public class AngleAdjusting extends LinearOpMode {
 
     public Trajectory toCameraScan(Pose2d startPos) {
         return drive.trajectoryBuilder(startPos)
-                .lineTo(new Vector2d(-24, -19))
+                .forward(36)
                 .build();
     }
 
     public Trajectory toShootingSpot(Pose2d cameraScanPos) {
         return drive.trajectoryBuilder(cameraScanPos)
-                .lineTo(new Vector2d(-12, -19))
+                .forward(24)
                 .build();
     }
 
     public Trajectory toWobbleDrop(int position) {
         switch(position) {
             case 0:
-                drive.turn(Math.toRadians(-67)); //valoare initiala: 62 - marja eroare: 5 grade
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(46)
-                        //.splineToLinearHeading(new Pose2d(12, -36), Math.toRadians(-90))
+                        .forward(30)
                         .build();
 
             case 1:
-                drive.turn(Math.toRadians(-25)); //valoare initiala: 20 - marja eroare: 5 grade
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(51)
-                        //.splineToLinearHeading(new Pose2d(30, -36), Math.toRadians(0))
+                        .forward(35)
                         .build();
             case 4:
             default:
-                drive.turn(Math.toRadians(-39)); //valoare initiala: 34 - marja eroare: 5 grade
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(83)
-                        //.splineToLinearHeading(new Pose2d(36, -60), Math.toRadians(0))
+                        .forward(58)
                         .build();
         }
     }
@@ -151,16 +146,16 @@ public class AngleAdjusting extends LinearOpMode {
         switch(position) {
             case 0:
                 return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(46)
+                        .back(30)
                         .build();
             case 1:
                 return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(51)
+                        .back(25)
                         .build();
             default:
             case 4:
                 return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(83)
+                        .back(50)
                         .build();
 
         }
@@ -188,6 +183,39 @@ public class AngleAdjusting extends LinearOpMode {
         telemetry.addData("Status", "initialized");
         waitForStart();
 
+        Trajectory toPark = drive.trajectoryBuilder(new Pose2d())
+                .back(23)
+                .build();
+
+
+        drive.followTrajectory(toCameraScan(startPos));
+        position = EasyOpenVision.getDetectedPosition();
+
+        telemetry.addData("Pozitie:", position);
+        telemetry.update();
+
+        drive.followTrajectory(toShootingSpot(toCameraScan(startPos).end()));
+
+        drive.turn(Math.toRadians(-8));
+        shoot();
+        drive.turn(Math.toRadians(9));
+        shoot();
+        drive.turn(Math.toRadians(10));
+        shoot();
+        drive.turn(Math.toRadians(-30));
+
+        switch(position) {
+            case 0:
+                drive.turn(Math.toRadians(-67));
+                break;
+            case 1:
+                drive.turn(Math.toRadians(-25));
+                break;
+            case 4:
+                drive.turn(Math.toRadians(-40));
+                break;
+        }
+
         drive.followTrajectory(toWobbleDrop(position));
 
         /*
@@ -211,14 +239,14 @@ public class AngleAdjusting extends LinearOpMode {
         switch(position) {
             case 0:
                 drive.followTrajectory(leaveWobbleDrop());
-                drive.turn(Math.toRadians(67));
+                //drive.turn(Math.toRadians(67));
                 move(135, false);
                 ASUPosition(true);
                 ASDPosition(true);
                 break;
             case 1:
                 drive.followTrajectory(leaveWobbleDrop());
-                drive.turn(Math.toRadians(25));
+                //drive.turn(Math.toRadians(25));
                 //drive.followTrajectory(toParkingSpot(leaveWobbleDrop()));
                 move(135, false);
                 ASUPosition(true);
@@ -226,7 +254,7 @@ public class AngleAdjusting extends LinearOpMode {
                 break;
             case 4:
                 drive.followTrajectory(leaveWobbleDrop());
-                drive.turn(Math.toRadians(39));
+                //drive.turn(Math.toRadians(39));
                 move(135, false);
                 ASUPosition(true);
                 ASDPosition(true);

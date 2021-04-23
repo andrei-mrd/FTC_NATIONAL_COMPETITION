@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -46,8 +46,8 @@ public class TeleOpBilda extends LinearOpMode {
     DcMotorEx shooter;
 
     //shooter servos
-    Servo shooterLeft;
-    Servo shooterRight;
+    Servo servoLeft;
+    Servo servoRight;
     Servo launchServo;
 
     float G1Y1, G1X1, G1X2;
@@ -68,9 +68,9 @@ public class TeleOpBilda extends LinearOpMode {
      */
     public void resetShooterPosition() {
         positionLeft = 0;
-        shooterLeft.setPosition(positionLeft);
+        servoLeft.setPosition(positionLeft);
         positionRight = 0;
-        shooterRight.setPosition(positionRight);
+        servoRight.setPosition(positionRight);
     }
 
     /**
@@ -80,8 +80,8 @@ public class TeleOpBilda extends LinearOpMode {
     public void moveToLowestPosition() {
         positionLeft = lowestPositionLeft;
         positionRight = lowestPositionRight;
-        shooterLeft.setPosition(positionLeft);
-        shooterRight.setPosition(positionRight);
+        servoLeft.setPosition(positionLeft);
+        servoRight.setPosition(positionRight);
     }
 
     /**
@@ -91,8 +91,8 @@ public class TeleOpBilda extends LinearOpMode {
     public void moveToHighestPosition() {
         positionLeft = highestPositionLeft;
         positionRight = highestPositionRight;
-        shooterLeft.setPosition(positionLeft);
-        shooterRight.setPosition(positionRight);
+        servoLeft.setPosition(positionLeft);
+        servoRight.setPosition(positionRight);
     }
 
     /**
@@ -101,8 +101,8 @@ public class TeleOpBilda extends LinearOpMode {
     public void lowerPosition() {
         positionLeft -= 0.05;
         positionRight -= 0.05;
-        shooterLeft.setPosition(positionLeft);
-        shooterRight.setPosition(positionRight);
+        servoLeft.setPosition(positionLeft);
+        servoRight.setPosition(positionRight);
     }
 
     /**
@@ -111,8 +111,8 @@ public class TeleOpBilda extends LinearOpMode {
     public void raisePosition() {
         positionLeft += 0.05;
         positionRight += 0.05;
-        shooterLeft.setPosition(positionLeft);
-        shooterRight.setPosition(positionRight);
+        servoLeft.setPosition(positionLeft);
+        servoRight.setPosition(positionRight);
     }
 
     /**
@@ -132,10 +132,10 @@ public class TeleOpBilda extends LinearOpMode {
 
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
 
-        shooterLeft = hardwareMap.get(Servo.class, "shooterLeft");
-        shooterLeft.setDirection(Servo.Direction.FORWARD);
-        shooterRight = hardwareMap.get(Servo.class, "shooterRight");
-        shooterRight.setDirection(Servo.Direction.REVERSE);
+        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
+        servoLeft.setDirection(Servo.Direction.FORWARD);
+        servoRight = hardwareMap.get(Servo.class, "servoRight");
+        servoRight.setDirection(Servo.Direction.REVERSE);
 
         launchServo = hardwareMap.get(Servo.class, "launchServo");
 
@@ -250,8 +250,8 @@ public class TeleOpBilda extends LinearOpMode {
             telemetry.addData("X", translation.getX());
             telemetry.addData("Y", translation.getY());
             telemetry.addData("Heading", rotation.getDegrees());
-            telemetry.addData("PozitieLeft ", shooterLeft.getPosition());
-            telemetry.addData("PozitieRight ", shooterRight.getPosition());
+            telemetry.addData("PozitieLeft ", servoLeft.getPosition());
+            telemetry.addData("PozitieRight ", servoRight.getPosition());
             telemetry.addData("LaunchPos ", launchServo.getPosition());
             telemetry.update();
         }

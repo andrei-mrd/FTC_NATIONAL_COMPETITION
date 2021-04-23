@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.Vision.EasyOpenVision;
 
-@Autonomous(name = "AutonomieMainPowerShots")
-public class AutonomieMainPowerShots extends LinearOpMode {
+@Autonomous(name = "AutonomieM")
+public class AutonomieBilda extends LinearOpMode {
 
     int position = 0;
 
@@ -27,7 +27,7 @@ public class AutonomieMainPowerShots extends LinearOpMode {
     Servo armServoUp;
     Servo armServoDown;
 
-    Pose2d startPos = new Pose2d(-60, -19, Math.toRadians(0));
+    Pose2d startPos = new Pose2d(-60, -17, Math.toRadians(0));
 
     final int TICKS_PER_REV = 2700;
 
@@ -51,12 +51,11 @@ public class AutonomieMainPowerShots extends LinearOpMode {
 
 
         shooterServo = hardwareMap.get(Servo.class, "shooterServo");
-        shooterServo.setPosition(0.0);
+        shooterServo.setPosition(0.47);
 
 
         armServoUp = hardwareMap.get(Servo.class, "wobbleServoSus");
         armServoUp.setPosition(0.0);
-
 
 
         armServoDown = hardwareMap.get(Servo.class, "wobbleServoJos");
@@ -64,7 +63,7 @@ public class AutonomieMainPowerShots extends LinearOpMode {
     }
 
     public void shoot() {
-        shooter.setPower(0.85);
+        shooter.setPower(0.91);
         sleep(2000);
         shooterServo.setPosition(1);
         sleep(500);
@@ -113,13 +112,13 @@ public class AutonomieMainPowerShots extends LinearOpMode {
 
     public Trajectory toCameraScan(Pose2d startPos) {
         return drive.trajectoryBuilder(startPos)
-                .forward(36)
+                .lineTo(new Vector2d(-24, -17))
                 .build();
     }
 
     public Trajectory toShootingSpot(Pose2d cameraScanPos) {
         return drive.trajectoryBuilder(cameraScanPos)
-                .forward(24)
+                .splineToLinearHeading(new Pose2d(-4, -45), Math.toRadians(5))
                 .build();
     }
 
@@ -127,38 +126,28 @@ public class AutonomieMainPowerShots extends LinearOpMode {
         switch(position) {
             case 0:
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(30)
+                        .forward(12)
+                        //.splineToLinearHeading(new Pose2d(12, -36), Math.toRadians(-90))
                         .build();
 
             case 1:
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(35)
+                        .forward(24)
+                        //.splineToLinearHeading(new Pose2d(30, -36), Math.toRadians(0))
                         .build();
             case 4:
             default:
                 return drive.trajectoryBuilder(toShootingSpot(toCameraScan(startPos).end()).end())
-                        .forward(58)
+                        .forward(35)
+                        //.splineToLinearHeading(new Pose2d(36, -60), Math.toRadians(0))
                         .build();
         }
     }
 
     public Trajectory leaveWobbleDrop() {
-        switch(position) {
-            case 0:
-                return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(30)
-                        .build();
-            case 1:
-                return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(25)
-                        .build();
-            default:
-            case 4:
-                return drive.trajectoryBuilder(toWobbleDrop(position).end())
-                        .back(50)
-                        .build();
-
-        }
+        return drive.trajectoryBuilder(toWobbleDrop(position).end())
+                .back(12)
+                .build();
     }
 
     public Trajectory toParkingSpot(Trajectory leaveWobbleDrop) {
@@ -196,41 +185,25 @@ public class AutonomieMainPowerShots extends LinearOpMode {
 
         drive.followTrajectory(toShootingSpot(toCameraScan(startPos).end()));
 
-        drive.turn(Math.toRadians(-8));
-        shoot();
-        drive.turn(Math.toRadians(9));
-        shoot();
-        drive.turn(Math.toRadians(10));
-        shoot();
-        drive.turn(Math.toRadians(-30));
-
-        switch(position) {
-            case 0:
-                drive.turn(Math.toRadians(-67));
-                break;
-            case 1:
-                drive.turn(Math.toRadians(-25));
-                break;
-            case 4:
-                drive.turn(Math.toRadians(-40));
-                break;
+        for(int i = 0 ; i < 3 ; i++) {
+            shoot();
         }
 
-        drive.followTrajectory(toWobbleDrop(position));
-
-        /*
         switch(position) {
             case 0:
+                drive.followTrajectory(toWobbleDrop(position));
+                drive.turn(Math.toRadians(-90));
                 drive.followTrajectory(toWobbleDrop(position));
                 break;
             case 1:
                 drive.followTrajectory(toWobbleDrop(position));
                 break;
             case 4:
+                drive.followTrajectory(toWobbleDrop(0));
+                drive.turn(Math.toRadians(-30));
                 drive.followTrajectory(toWobbleDrop(position));
                 break;
         }
-         */
 
         move(135, true);
         ASUPosition(true);
@@ -239,26 +212,21 @@ public class AutonomieMainPowerShots extends LinearOpMode {
         switch(position) {
             case 0:
                 drive.followTrajectory(leaveWobbleDrop());
-                //drive.turn(Math.toRadians(67));
+                drive.turn(Math.toRadians(90));
                 move(135, false);
                 ASUPosition(true);
                 ASDPosition(true);
                 break;
             case 1:
                 drive.followTrajectory(leaveWobbleDrop());
-                //drive.turn(Math.toRadians(25));
-                //drive.followTrajectory(toParkingSpot(leaveWobbleDrop()));
+                drive.followTrajectory(toParkingSpot(leaveWobbleDrop()));
                 move(135, false);
                 ASUPosition(true);
                 ASDPosition(true);
                 break;
             case 4:
                 drive.followTrajectory(leaveWobbleDrop());
-                //drive.turn(Math.toRadians(39));
-                move(135, false);
-                ASUPosition(true);
-                ASDPosition(true);
-                //drive.followTrajectory(toPark);
+                drive.followTrajectory(toPark);
                 //drive.followTrajectory(toParkingSpot(leaveWobbleDrop()));
                 break;
         }

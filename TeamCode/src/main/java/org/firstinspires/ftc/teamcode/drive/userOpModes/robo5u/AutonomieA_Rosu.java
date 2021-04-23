@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo5u;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.Vision.EasyOpenVision;
 
-@Autonomous(name = "AutonomieMainHighGoal")
-public class AutonomieMainHighGoal extends LinearOpMode {
+@Autonomous(name = "AutonomieMain")
+public class AutonomieA_Rosu extends LinearOpMode {
 
     int position = 0;
 
@@ -36,7 +36,7 @@ public class AutonomieMainHighGoal extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setPoseEstimate(startPos);
-        //EasyOpenVision.initEasyVision(hardwareMap);
+        EasyOpenVision.initEasyVision(hardwareMap);
 
 
         shooter = hardwareMap.get(DcMotor.class, "shooter");
@@ -63,8 +63,8 @@ public class AutonomieMainHighGoal extends LinearOpMode {
     }
 
     public void shoot() {
-        shooter.setPower(1);
-        sleep(2800);
+        shooter.setPower(0.91);
+        sleep(2000);
         shooterServo.setPosition(1);
         sleep(500);
         shooter.setPower(0);
@@ -112,13 +112,13 @@ public class AutonomieMainHighGoal extends LinearOpMode {
 
     public Trajectory toCameraScan(Pose2d startPos) {
         return drive.trajectoryBuilder(startPos)
-                .lineTo(new Vector2d(-22, -17))
+                .lineTo(new Vector2d(-24, -17))
                 .build();
     }
 
     public Trajectory toShootingSpot(Pose2d cameraScanPos) {
         return drive.trajectoryBuilder(cameraScanPos)
-                .splineToLinearHeading(new Pose2d(0, -45), Math.toRadians(5))
+                .splineToLinearHeading(new Pose2d(-4, -45), Math.toRadians(5))
                 .build();
     }
 
@@ -178,7 +178,7 @@ public class AutonomieMainHighGoal extends LinearOpMode {
 
 
         drive.followTrajectory(toCameraScan(startPos));
-        //position = EasyOpenVision.getDetectedPosition();
+        position = EasyOpenVision.getDetectedPosition();
 
         telemetry.addData("Pozitie:", position);
         telemetry.update();
