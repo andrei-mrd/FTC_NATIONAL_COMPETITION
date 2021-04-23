@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.AutonomieAndrey;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -14,24 +14,25 @@ import org.firstinspires.ftc.teamcode.drive.userOpModes.Vision.EasyOpenVision;
 
 @Autonomous(name = "AutonomieAndreyIncercare")
 public class AutonomieAndrey extends LinearOpMode {
+
+    int startpos = 0;
+
+    SampleMecanumDrive drive;
+
+    Pose2d startPos = new Pose2d(-63, -15, Math.toRadians(0));
+
+    //Shooter
+
+    public void intialize() {
+
+        drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(startPos);
+        EasyOpenVision.initEasyVision(hardwareMap);
+
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
-
-        int startpos = 0;
-
-        SampleMecanumDrive drive;
-
-        Pose2d startPos = new Pose2d(-63, -15, Math.toRadians(0));
-
-        //Shooter
-
-        public void intialize() {
-
-            drive = new SampleMecanumDrive(hardwareMap);
-            drive.setPoseEstimate(startPos);
-            EasyOpenVision.initEasyVision(hardwareMap);
-
-        }
 
     }
 }

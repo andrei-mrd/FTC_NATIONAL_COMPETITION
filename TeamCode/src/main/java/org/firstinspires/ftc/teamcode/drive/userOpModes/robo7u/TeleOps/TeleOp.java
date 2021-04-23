@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.TeleOps;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -110,6 +110,7 @@ public class TeleOp extends LinearOpMode {
         }
     }
 
+    //motoare sasiu
     public void powerMotors() {
         G1Y1 = -gamepad1.left_stick_y;
         G1X1 = gamepad1.left_stick_x;
@@ -171,6 +172,7 @@ public class TeleOp extends LinearOpMode {
         }
 
         //pentru servo-ul de launch
+        //versiune cu shooting manual
         if(gamepad1.a && (runtime.milliseconds() - runtimeActual > 100)) {
             shooter.launcher.moveToRetractedPosition();
             runtimeActual = runtime.milliseconds();
@@ -200,6 +202,20 @@ public class TeleOp extends LinearOpMode {
         }
     }
 
+    public void listenForIntakeMovement() {
+        if(gamepad2.left_trigger > 0) {
+            intake.powerIntake(1);
+        } else if(gamepad2.right_trigger > 0) {
+            intake.powerOuttake(1);
+        } else {
+            intake.stopIntake();
+        }
+    }
+
+    public void listenForArmMovement() {
+
+    }
+
     public void listenForMechanisms() {
 
         listenForLimitsUpdates();
@@ -207,6 +223,10 @@ public class TeleOp extends LinearOpMode {
         listenForShooting();
 
         listenForLiftMovement();
+
+        listenForArmMovement();
+
+        listenForIntakeMovement();
 
     }
 }

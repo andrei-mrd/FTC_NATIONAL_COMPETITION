@@ -34,4 +34,12 @@ public class Intake {
         geckoMotor.setPower(-power);
         gearedMotor.setPower(power);
     }
+
+    /**
+     * Functie care se opreste din mancat covrigi
+     */
+    public void stopIntake() {
+        geckoMotor.setPower(0);
+        gearedMotor.setPower(0);
+    }
 }
