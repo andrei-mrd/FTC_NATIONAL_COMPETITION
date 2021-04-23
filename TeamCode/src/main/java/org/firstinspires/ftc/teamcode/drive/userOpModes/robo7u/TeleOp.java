@@ -18,14 +18,16 @@ import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Arm;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Intake;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Shooter;
 
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
     ElapsedTime runtime;
 
-    //Camera
+    //Camera Intel
     private static T265Camera slamra = null;
-    private final FtcDashboard dashboard = FtcDashboard.getInstance();
-    final int robotRadius = 9;
+    Translation2d translation;
+    Rotation2d rotation;
+    T265Camera.CameraUpdate up;
 
     //mecanisme
     Shooter shooter;
@@ -41,15 +43,44 @@ public class TeleOp extends LinearOpMode {
 
     //alte variabile
     boolean isPoseSet = false;
+    double runtimeActual;
 
     //constante
     final double INCH_TO_METERS = 0.0254;
 
+    //Ftc Dashboard
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
+    TelemetryPacket packet;
+    Canvas field;
+    final int robotRadius = 9;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        initialize();
+
+        waitForStart();
+
+        runtime.reset();
+
+        while(opModeIsActive()) {
+
+            powerMotors();
+
+            updateDashboard();
+
+            listenForMechanisms();
+
+            updateTelemetry();
+        }
+    }
+
     public void initialize() {
+        //cream mecanismele
         shooter = new Shooter(hardwareMap);
         arm = new Arm(hardwareMap);
         intake = new Intake(hardwareMap);
 
+        //cream si initializam sasiul
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         SampleMecanumDrive.leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -59,6 +90,7 @@ public class TeleOp extends LinearOpMode {
 
         runtime = new ElapsedTime();
 
+        //crmeam si pornim camera
         if(slamra == null) {
             //initializam camera si comunicam pozitia centrului camerei fata de centrul robotului
             slamra = new T265Camera(new Transform2d(new Translation2d(-0.225, 0), new Rotation2d(0)), 0, hardwareMap.appContext);
@@ -73,6 +105,8 @@ public class TeleOp extends LinearOpMode {
                     isPoseSet = true;
                 }
             }
+
+            slamra.start();
         }
     }
 
@@ -89,40 +123,90 @@ public class TeleOp extends LinearOpMode {
         drive.setMotorPowers(LF, LR, RR, RF);
     }
 
+    public void updateDashboard() {
+        packet = new TelemetryPacket();
+        field = packet.fieldOverlay();
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        initialize();
+        up = slamra.getLastReceivedCameraUpdate();
 
-        waitForStart();
+        if(up == null) return;
 
-        runtime.reset();
+        translation = new Translation2d(up.pose.getTranslation().getX() / INCH_TO_METERS, up.pose.getTranslation().getY() / INCH_TO_METERS);
+        rotation = up.pose.getRotation();
 
-        while(opModeIsActive()) {
+        field.strokeCircle(translation.getX(), translation.getY(), robotRadius);
+        double arrowX = rotation.getCos() * robotRadius, arrowY = rotation.getSin() * robotRadius;
+        double x1 = translation.getX() + arrowX  / 2, y1 = translation.getY() + arrowY / 2;
+        double x2 = translation.getX() + arrowX, y2 = translation.getY() + arrowY;
+        field.strokeLine(x1, y1, x2, y2);
 
-            powerMotors();
+        dashboard.sendTelemetryPacket(packet);
+    }
 
-            TelemetryPacket packet = new TelemetryPacket();
-            Canvas field = packet.fieldOverlay();
+    public void updateTelemetry() {
+        telemetry.addData("X", translation.getX());
+        telemetry.addData("Y", translation.getY());
+        telemetry.addData("Heading", rotation.getDegrees());
+        telemetry.addData("Runtime", runtime);
+        telemetry.update();
+    }
 
-            T265Camera.CameraUpdate up = slamra.getLastReceivedCameraUpdate();
-            if(up == null) return;
-
-            Translation2d translation = new Translation2d(up.pose.getTranslation().getX() / 0.0254, up.pose.getTranslation().getY() / 0.0254);
-            Rotation2d rotation = up.pose.getRotation();
-
-            field.strokeCircle(translation.getX(), translation.getY(), robotRadius);
-            double arrowX = rotation.getCos() * robotRadius, arrowY = rotation.getSin() * robotRadius;
-            double x1 = translation.getX() + arrowX  / 2, y1 = translation.getY() + arrowY / 2;
-            double x2 = translation.getX() + arrowX, y2 = translation.getY() + arrowY;
-            field.strokeLine(x1, y1, x2, y2);
-
-            dashboard.sendTelemetryPacket(packet);
-            telemetry.addData("X", translation.getX());
-            telemetry.addData("Y", translation.getY());
-            telemetry.addData("Heading", rotation.getDegrees());
-            telemetry.addData("Runtime", runtime);
-            telemetry.update();
+    public void listenForLimitsUpdates() {
+        if(gamepad1.y) {
+            shooter.shooterLift.updateTopPosition();
+        } else if(gamepad1.x) {
+            shooter.shooterLift.updateBottomPosition();
         }
+    }
+
+    public void listenForShooting() {
+
+        //pentru flywheel
+        if(gamepad1.left_trigger > 0) {
+            shooter.launcher.powerFlywheel();
+        } else if(gamepad1.right_trigger > 0) {
+            shooter.launcher.reversePowerFlywheel();
+        } else {
+            shooter.launcher.stopFlywheel();
+        }
+
+        //pentru servo-ul de launch
+        if(gamepad1.a && (runtime.milliseconds() - runtimeActual > 100)) {
+            shooter.launcher.moveToRetractedPosition();
+            runtimeActual = runtime.milliseconds();
+        } else if(gamepad1.b && (runtime.milliseconds() - runtimeActual > 100)) {
+            shooter.launcher.moveToShootingPosition();
+            runtimeActual = runtime.milliseconds();
+        }
+    }
+
+    public void listenForLiftMovement() {
+        //Pentru miscari mici, din 0.05 in 0.05
+        if(gamepad1.dpad_down && (runtime.milliseconds() - runtimeActual > 500)) {
+            shooter.shooterLift.lowerPosition();
+            runtimeActual = runtime.milliseconds();
+        } else if(gamepad1.dpad_up && (runtime.milliseconds() - runtimeActual > 500)) {
+            shooter.shooterLift.raisePosition();
+            runtimeActual = runtime.milliseconds();
+        }
+
+        //Pentru miscari radicale, de la pozitia actuala la limita aleasa
+        if(gamepad1.left_bumper && (runtime.milliseconds() - runtimeActual > 500)) {
+            shooter.shooterLift.moveToBottomPosition();
+            runtimeActual = runtime.milliseconds();
+        } else if(gamepad1.right_bumper && (runtime.milliseconds() - runtimeActual > 500)) {
+            shooter.shooterLift.moveToTopPosition();
+            runtimeActual = runtime.milliseconds();
+        }
+    }
+
+    public void listenForMechanisms() {
+
+        listenForLimitsUpdates();
+
+        listenForShooting();
+
+        listenForLiftMovement();
+
     }
 }

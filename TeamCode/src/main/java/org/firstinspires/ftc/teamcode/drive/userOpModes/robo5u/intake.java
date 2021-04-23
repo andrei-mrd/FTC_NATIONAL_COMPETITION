@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.drive.userOpModes.robo5u;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@Disabled
 public class intake extends LinearOpMode {
     DcMotor shooter;
     DcMotor intake;

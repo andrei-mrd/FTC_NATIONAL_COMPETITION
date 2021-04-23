@@ -44,6 +44,24 @@ public class ShooterLift {
     //Functii de control servo
 
     /**
+     * Functie ce transforma pozitia top in pozitia actuala
+     * (moveToTopPosition() va merge la pozitia asta in locul celei predefinite)
+     */
+    public void updateTopPosition() {
+        topPositionLeft = positionLeft;
+        topPositionRight = positionRight;
+    }
+
+    /**
+     * Functie ce transforma pozitia bottom in pozitia actuala
+     * (moveToBottomPosition() va merge la pozitia asta in locul celei predefinite)
+     */
+    public void updateBottomPosition() {
+        bottomPositionLeft = positionLeft;
+        bottomPositionRight = positionRight;
+    }
+
+    /**
      * Functie ce muta shooter-ul din pozitia actuala
      * in pozitia de inaltime minima setata
      */

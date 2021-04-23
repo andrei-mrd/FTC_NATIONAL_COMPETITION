@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.userOpModes.robo5u;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp Test Wobble")
 public class TeleOpTestWobble extends LinearOpMode {
 
