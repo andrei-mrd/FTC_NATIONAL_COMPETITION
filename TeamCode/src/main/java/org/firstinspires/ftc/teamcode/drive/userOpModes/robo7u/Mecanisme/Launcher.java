@@ -15,7 +15,8 @@ public class Launcher {
     double retractedPosition = 0.47;
     double shootPosition = 0.65;
 
-    double powerCap = 1;
+    double highGoalCap = 1;
+    double powerShotCap = 0.85;
 
     /**
      * Constructor pentru launcher, apelat de clasa shooter la initializarea
@@ -70,15 +71,15 @@ public class Launcher {
     /**
      * Functie pentru operare flywheel in sens normal
      */
-    public void powerFlywheel() {
-        flywheel.setPower(powerCap);
+    public void powerFlywheel(boolean powershots) {
+        flywheel.setPower(powershots ? powerShotCap : highGoalCap);
     }
 
     /**
      * Functie pentru operare flywheel in sens opus
      */
-    public void reversePowerFlywheel() {
-        flywheel.setPower(-powerCap);
+    public void reversePowerFlywheel(boolean powershots) {
+        flywheel.setPower(powershots ? -powerShotCap : -highGoalCap);
     }
 
     /**

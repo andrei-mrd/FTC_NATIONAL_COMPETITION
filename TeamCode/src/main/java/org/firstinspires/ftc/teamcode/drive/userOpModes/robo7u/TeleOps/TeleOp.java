@@ -164,9 +164,9 @@ public class TeleOp extends LinearOpMode {
 
         //pentru flywheel
         if(gamepad1.left_trigger > 0) {
-            shooter.launcher.powerFlywheel();
+            shooter.launcher.powerFlywheel(false);
         } else if(gamepad1.right_trigger > 0) {
-            shooter.launcher.reversePowerFlywheel();
+            shooter.launcher.reversePowerFlywheel(false);
         } else {
             shooter.launcher.stopFlywheel();
         }
