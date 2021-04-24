@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,15 +18,15 @@ class Claw {
         servo2 = hwMap.get(Servo.class, "servo2");
 
         servo1.setDirection(Servo.Direction.FORWARD);
-        servo2.setDirection(Servo.Direction.REVERSE);
+        servo2.setDirection(Servo.Direction.FORWARD);
     }
 
-    public void close() {
+    public void closeClaw() {
         servo1.setPosition(closedPosition);
         servo2.setPosition(closedPosition);
     }
 
-    public void open() {
+    public void openClaw() {
         servo1.setPosition(openedPosition);
         servo2.setPosition(openedPosition);
     }
@@ -40,7 +39,7 @@ public class Arm {
     HardwareMap hwMap;
 
     DcMotor armMotor;
-    Claw claw;
+    public Claw claw;
 
     public Arm(HardwareMap ahwMap) {
         hwMap = ahwMap;
@@ -81,13 +80,21 @@ public class Arm {
         while(armMotor.isBusy());
     }
 
+    public void openClaw() {
+        claw.openClaw();
+    }
+
+    public void closeClaw() {
+        claw.closeClaw();
+    }
+
     public void extendAndDropWobble() {
         extend(150);
-        claw.open();
+        claw.openClaw();
     }
 
     public void takeWobbleAndRetract() {
-        claw.close();
+        claw.closeClaw();
         retract(150);
     }
 

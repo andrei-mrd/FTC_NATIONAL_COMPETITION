@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Disabled
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp5u")
 public class TeleOp extends LinearOpMode {
 
     DcMotor leftFront;

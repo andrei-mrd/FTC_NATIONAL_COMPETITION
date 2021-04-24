@@ -90,11 +90,13 @@ public class TeleOp extends LinearOpMode {
 
         runtime = new ElapsedTime();
 
-        //crmeam si pornim camera
+        //facem si pornim camera
         if(slamra == null) {
             //initializam camera si comunicam pozitia centrului camerei fata de centrul robotului
             slamra = new T265Camera(new Transform2d(new Translation2d(-0.225, 0), new Rotation2d(0)), 0, hardwareMap.appContext);
+            slamra.setPose(new Pose2d(new Translation2d(-63 * INCH_TO_METERS, -15*INCH_TO_METERS), new Rotation2d(0)));
 
+            /*
             while(!isPoseSet) {
                 if(slamra.getLastReceivedCameraUpdate().confidence == T265Camera.PoseConfidence.High) {
 
@@ -105,6 +107,8 @@ public class TeleOp extends LinearOpMode {
                     isPoseSet = true;
                 }
             }
+
+             */
 
             slamra.start();
         }
@@ -213,7 +217,11 @@ public class TeleOp extends LinearOpMode {
     }
 
     public void listenForArmMovement() {
-
+        if(gamepad2.a) {
+            arm.openClaw();
+        } else if(gamepad2.y) {
+            arm.closeClaw();
+        }
     }
 
     public void listenForMechanisms() {
