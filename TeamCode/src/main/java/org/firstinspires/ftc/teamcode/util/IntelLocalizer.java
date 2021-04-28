@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
         d2 = {"Lorg/firstinspires/ftc/teamcode/util/IntelLocalizer;", "Lcom/acmerobotics/roadrunner/localization/Localizer;", "hardwareMap", "Lcom/qualcomm/robotcore/hardware/HardwareMap;", "startPose2d", "Lcom/acmerobotics/roadrunner/geometry/Pose2d;", "(Lcom/qualcomm/robotcore/hardware/HardwareMap;Lcom/acmerobotics/roadrunner/geometry/Pose2d;)V", "value", "poseEstimate", "getPoseEstimate", "()Lcom/acmerobotics/roadrunner/geometry/Pose2d;", "setPoseEstimate", "(Lcom/acmerobotics/roadrunner/geometry/Pose2d;)V", "poseVelocity", "getPoseVelocity", "update", "", "TeamCode_debug"}
 )
 public final class IntelLocalizer implements Localizer {
+
     @NotNull
     public Pose2d getPoseEstimate() {
         return t265.INSTANCE.getPose();
