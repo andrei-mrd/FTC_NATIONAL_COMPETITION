@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.TeleOps;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.TeleOps.NormalTeleOps;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;

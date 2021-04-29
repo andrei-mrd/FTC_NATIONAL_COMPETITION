@@ -60,6 +60,10 @@ public class EasyOpenVision
         return mainPosition;
     }
 
+    public static void closeCamera() {
+        webcam.closeCameraDevice();
+    }
+
     public static class RingDeterminationPipeLine extends OpenCvPipeline
     {
         /*

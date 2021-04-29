@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.TeleOps;
+package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.TeleOps.AutomatedTeleOps;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -18,8 +18,10 @@ import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Arm;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Intake;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Shooter;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
-public class TeleOp extends LinearOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "CompetitionTeleOp")
+
+//De editat mai tarziu
+public class CompetitionTeleOp extends LinearOpMode {
 
     ElapsedTime runtime;
 
