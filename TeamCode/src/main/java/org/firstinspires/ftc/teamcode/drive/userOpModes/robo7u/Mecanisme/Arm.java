@@ -9,26 +9,21 @@ class Claw {
     double closedPosition = 1, openedPosition = 0;
 
     HardwareMap hwMap;
-    Servo servo1;
-    Servo servo2;
+    Servo clawServo;
 
     Claw(HardwareMap ahwMap) {
         hwMap = ahwMap;
-        servo1 = hwMap.get(Servo.class, "servo1");
-        servo2 = hwMap.get(Servo.class, "servo2");
+        clawServo = hwMap.get(Servo.class, "clawServo");
 
-        servo1.setDirection(Servo.Direction.FORWARD);
-        servo2.setDirection(Servo.Direction.FORWARD);
+        clawServo.setDirection(Servo.Direction.FORWARD);
     }
 
     public void closeClaw() {
-        servo1.setPosition(closedPosition);
-        servo2.setPosition(closedPosition);
+        clawServo.setPosition(closedPosition);
     }
 
     public void openClaw() {
-        servo1.setPosition(openedPosition);
-        servo2.setPosition(openedPosition);
+        clawServo.setPosition(openedPosition);
     }
 }
 
@@ -46,6 +41,18 @@ public class Arm {
         claw = new Claw(hwMap);
 
         armMotor = hwMap.get(DcMotor.class, "armMotor");
+    }
+
+    public void midPosition() {
+
+    }
+
+    public void retractedPosition() {
+
+    }
+
+    public void extendedPosition() {
+
     }
 
     public void retract(int degrees) {

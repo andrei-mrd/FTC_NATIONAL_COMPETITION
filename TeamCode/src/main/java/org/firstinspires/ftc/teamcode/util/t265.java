@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.util;
 import android.content.Context;
 import android.util.Log;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
@@ -219,18 +220,48 @@ public final class t265 {
     }
 
     public final void update() {
-        T265Camera var10000 = cam;
-        if (var10000 == null) {
+        T265Camera slamra = cam;
+        if (slamra == null) {
             Intrinsics.throwUninitializedPropertyAccessException("cam");
         }
 
-        CameraUpdate var2 = var10000.getLastReceivedCameraUpdate();
-        Intrinsics.checkNotNullExpressionValue(var2, "cam.lastReceivedCameraUpdate");
-        update = var2;
+        CameraUpdate up = slamra.getLastReceivedCameraUpdate();
+        Intrinsics.checkNotNullExpressionValue(up, "cam.lastReceivedCameraUpdate");
+        update = up;
         Log.i("INTEL LOCALIZER", this.getPose().toString());
-        TelemetryPacket packet = new TelemetryPacket();
+
+        TelemetryPacket packet;
+        Canvas field;
+
+        Translation2d translation;
+        Rotation2d rotation;
+
+        final int robotRadius = 9;
+
+        final double INCH_TO_METERS = 0.0254;
+
+        packet = new TelemetryPacket();
+        field = packet.fieldOverlay();
+
+        up = slamra.getLastReceivedCameraUpdate();
+
+        if(up == null) return;
+
+        translation = new Translation2d(up.pose.getTranslation().getX() / INCH_TO_METERS, up.pose.getTranslation().getY() / INCH_TO_METERS);
+        rotation = up.pose.getRotation();
+
+        field.strokeCircle(translation.getX(), translation.getY(), robotRadius);
+        double arrowX = rotation.getCos() * robotRadius, arrowY = rotation.getSin() * robotRadius;
+        double x1 = translation.getX() + arrowX  / 2, y1 = translation.getY() + arrowY / 2;
+        double x2 = translation.getX() + arrowX, y2 = translation.getY() + arrowY;
+        field.strokeLine(x1, y1, x2, y2);
+
+        dash.sendTelemetryPacket(packet);
+
+        /*
         packet.fieldOverlay().fillCircle(this.getPose().getX(), this.getPose().getY(), 9.0D);
         dash.sendTelemetryPacket(packet);
+         */
     }
 
     public final void resetPose() {
@@ -248,7 +279,7 @@ public final class t265 {
     static {
         t265 var0 = new t265();
         INSTANCE = var0;
-        cameraToRobot = new Transform2d(new Translation2d(0.0D, 0.0D), new Rotation2d(ExtKt.toRadians(0.0D)));
+        cameraToRobot = new Transform2d(new Translation2d(-22.5, 0.0D), new Rotation2d(ExtKt.toRadians(0.0D)));
         dash = FtcDashboard.getInstance();
     }
 }

@@ -206,6 +206,20 @@ public class SampleMecanumDrive extends MecanumDrive {
         mode = Mode.TURN;
     }
 
+    public void toggleIntakeFrontFace() {
+        SampleMecanumDrive.leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        SampleMecanumDrive.leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        SampleMecanumDrive.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        SampleMecanumDrive.rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public void toggleShooterFrontFace() {
+        SampleMecanumDrive.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        SampleMecanumDrive.leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        SampleMecanumDrive.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        SampleMecanumDrive.rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
     public void turn(double angle) {
         turnAsync(angle);
         waitForIdle();
@@ -402,5 +416,9 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public double getRawExternalHeading() {
         return imu.getAngularOrientation().firstAngle;
+    }
+
+    public void cancelFollowing() {
+        mode = Mode.IDLE;
     }
 }
