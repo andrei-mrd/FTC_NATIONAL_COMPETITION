@@ -110,6 +110,13 @@ public class TeleOp extends LinearOpMode {
 
     //motoare sasiu
     public void powerMotors() {
+
+        if(gamepad1.left_stick_button) {
+            drive.toggleIntakeFrontFace();
+        } else if(gamepad1.right_stick_button) {
+            drive.toggleShooterFrontFace();
+        }
+
         G1Y1 = -gamepad1.left_stick_y;
         G1X1 = gamepad1.left_stick_x;
         G1X2 = gamepad1.right_stick_x;

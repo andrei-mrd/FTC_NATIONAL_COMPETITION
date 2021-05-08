@@ -279,7 +279,7 @@ public final class t265 {
     static {
         t265 var0 = new t265();
         INSTANCE = var0;
-        cameraToRobot = new Transform2d(new Translation2d(-22.5, 0.0D), new Rotation2d(ExtKt.toRadians(0.0D)));
+        cameraToRobot = new Transform2d(new Translation2d(-0.21, 0.0D), new Rotation2d(ExtKt.toRadians(0.0D)));
         dash = FtcDashboard.getInstance();
     }
 }

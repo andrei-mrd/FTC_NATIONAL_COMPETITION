@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Arm;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Intake;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Mechanisms;
 import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme.Shooter;
+import org.firstinspires.ftc.teamcode.util.t265;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "CompetitionTeleOp")
 public class CompetitionTeleOp extends LinearOpMode {
@@ -105,6 +106,9 @@ public class CompetitionTeleOp extends LinearOpMode {
     }
 
     public void initialize() {
+
+        t265.initialize(hardwareMap);
+
         //cream mecanismele
         mechanisms = new Mechanisms(hardwareMap);
 
