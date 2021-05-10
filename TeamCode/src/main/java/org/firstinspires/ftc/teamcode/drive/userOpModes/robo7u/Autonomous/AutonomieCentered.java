@@ -116,11 +116,11 @@ public class AutonomieCentered extends LinearOpMode {
 
                 //tragem 3 inele
                 shooter.launcher.powerFlywheel(false);
-                shooter.launcher.shoot(runtime);
+                //shooter.launcher.shoot(runtime);
                 sleep(200);
-                shooter.launcher.shoot(runtime);
+                //shooter.launcher.shoot(runtime);
                 sleep(200);
-                shooter.launcher.shoot(runtime);
+                //shooter.launcher.shoot(runtime);
                 sleep(200);
                 shooter.launcher.stopFlywheel();
 

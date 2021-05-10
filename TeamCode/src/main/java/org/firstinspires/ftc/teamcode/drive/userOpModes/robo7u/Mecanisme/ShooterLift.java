@@ -9,14 +9,18 @@ public class ShooterLift {
     HardwareMap hwMap;
 
     double positionLeft, positionRight;
-    double bottomPositionLeft = 0, topPositionLeft = 0.25;
-    double bottomPositionRight = 0, topPositionRight = 0.25;
+    double bottomPositionLeft = 0.1, topPositionLeft = 0.2;
+    double bottomPositionRight = 0.1, topPositionRight = 0.2;
 
     //servo-uri privite din fata cu shooter-ul
     private Servo servoLeft;
     private Servo servoRight;
 
     //Functii de initializare + constructor
+
+    public double getPositions() {
+        return positionLeft;
+    }
 
     public ShooterLift(HardwareMap ahwMap) {
         hwMap = ahwMap;
@@ -33,8 +37,8 @@ public class ShooterLift {
     }
 
     public void initPositions() {
-        positionLeft = 0;
-        positionRight = 0;
+        positionLeft = topPositionLeft;
+        positionRight = topPositionRight;
         servoLeft.setPosition(positionLeft);
         servoRight.setPosition(positionRight);
     }

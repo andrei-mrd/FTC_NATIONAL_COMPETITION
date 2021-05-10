@@ -65,15 +65,20 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         mechanisms = new Mechanisms(hardwareMap);
         drive = new SampleMecanumDrive(hardwareMap);
 
+        mechanisms.arm.openClaw();
+
         if(culoare == Side.RED) {
             startPose = new Pose2d(-65, 12, Math.toRadians(0));
         }
 
         drive.setPoseEstimate(startPose);
 
-        telemetry.addData("Inaltime: ", height);
-        telemetry.addData("Status: ", "Click play to start");
-        telemetry.update();
+        while(height != 5) {
+            height = EasyOpenVision.getDetectedPosition();
+            telemetry.addData("Inaltime: ", height);
+            telemetry.addData("Status: ", "Click play to start");
+            telemetry.update();
+        }
 
         waitForStart();
 

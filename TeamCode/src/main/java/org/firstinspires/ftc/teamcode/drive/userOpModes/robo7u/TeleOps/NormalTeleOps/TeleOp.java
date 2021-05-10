@@ -154,6 +154,7 @@ public class TeleOp extends LinearOpMode {
         telemetry.addData("Y", translation.getY());
         telemetry.addData("Heading", rotation.getDegrees());
         telemetry.addData("Runtime", runtime);
+        telemetry.addData("Pozitie", mechanisms.shooter.shooterLift.getPositions());
         telemetry.update();
     }
 
@@ -169,9 +170,9 @@ public class TeleOp extends LinearOpMode {
 
         //pentru flywheel
         if(gamepad1.left_trigger > 0) {
-            mechanisms.shooter.launcher.powerFlywheel(false);
+            mechanisms.shooter.launcher.powerFlywheel(true);
         } else if(gamepad1.right_trigger > 0) {
-            mechanisms.shooter.launcher.reversePowerFlywheel(false);
+            mechanisms.shooter.launcher.powerFlywheel(false);
         } else {
             mechanisms.shooter.launcher.stopFlywheel();
         }
@@ -184,6 +185,18 @@ public class TeleOp extends LinearOpMode {
         } else if(gamepad1.b && (runtime.milliseconds() - runtimeActual > 100)) {
             mechanisms.shooter.launcher.moveToShootingPosition();
             runtimeActual = runtime.milliseconds();
+        }
+
+        if(gamepad1.x && (runtime.milliseconds() - runtimeActual > 100)) {
+
+            mechanisms.shooter.launcher.moveToShootingPosition();
+
+            runtimeActual = runtime.milliseconds();
+
+            sleep(200);
+
+            mechanisms.shooter.launcher.moveToRetractedPosition();
+
         }
     }
 
@@ -218,6 +231,15 @@ public class TeleOp extends LinearOpMode {
     }
 
     public void listenForArmMovement() {
+
+        if(gamepad2.dpad_up) {
+            mechanisms.arm.teleOpExtend();
+        } else if(gamepad2.dpad_down) {
+            mechanisms.arm.teleOpRetract();
+        } else {
+            mechanisms.arm.stopArm();
+        }
+        //gionutz ti a lasat rame
         if(gamepad2.a) {
             mechanisms.arm.openClaw();
         } else if(gamepad2.y) {

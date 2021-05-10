@@ -42,21 +42,21 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 })
                 .splineTo(new Vector2d(0, -20), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                     mechanisms.shooter.launcher.stopFlywheel();
 
                     mechanisms.arm.extend(100);
@@ -116,21 +116,21 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 })
                 .splineTo(new Vector2d(0, -20), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                     mechanisms.shooter.launcher.stopFlywheel();
 
                     mechanisms.arm.extend(100);
@@ -190,21 +190,21 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 })
                 .splineTo(new Vector2d(0, -20), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                 })
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
                 .strafeLeft(8)
                 .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.shoot(runtime);
+                    //mechanisms.shooter.launcher.shoot(runtime);
                     mechanisms.shooter.launcher.stopFlywheel();
 
                     mechanisms.arm.extend(100);

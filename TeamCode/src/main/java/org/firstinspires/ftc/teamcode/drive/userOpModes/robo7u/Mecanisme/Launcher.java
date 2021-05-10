@@ -15,8 +15,8 @@ public class Launcher {
     double retractedPosition = 0.47;
     double shootPosition = 0.65;
 
-    double highGoalCap = 1;
-    double powerShotCap = 0.85;
+    double highGoalCap = 0.8;
+    double powerShotCap = 0.75;
 
     /**
      * Constructor pentru launcher, apelat de clasa shooter la initializarea
@@ -39,15 +39,16 @@ public class Launcher {
      * Functie pentru shooting automat
      * @param runtime runtime-ul din modul de operare
      */
-    public void shoot(ElapsedTime runtime) {
+    public void shoot(ElapsedTime runtime, double runtimeActual) {
 
-        double runtimeActual = runtime.milliseconds();
+        if(runtime.milliseconds() - runtimeActual > 100) {
+            trigger.setPosition(shootPosition);
 
-        trigger.setPosition(shootPosition);
+            while(runtime.milliseconds() - runtimeActual < 100);
 
-        while(runtime.milliseconds() - runtimeActual < 100);
+            trigger.setPosition(retractedPosition);
+        }
 
-        trigger.setPosition(retractedPosition);
     }
 
 

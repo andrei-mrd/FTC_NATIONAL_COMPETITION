@@ -43,6 +43,18 @@ public class Arm {
         armMotor = hwMap.get(DcMotor.class, "armMotor");
     }
 
+    public void teleOpRetract() {
+        armMotor.setPower(0.6);
+    }
+
+    public void teleOpExtend() {
+        armMotor.setPower(-0.6);
+    }
+
+    public void stopArm() {
+        armMotor.setPower(0);
+    }
+
     public void midPosition() {
 
     }
