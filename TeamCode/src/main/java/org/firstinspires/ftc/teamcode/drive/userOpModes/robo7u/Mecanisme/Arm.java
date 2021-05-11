@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.Mecanisme;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -41,14 +42,20 @@ public class Arm {
         claw = new Claw(hwMap);
 
         armMotor = hwMap.get(DcMotor.class, "armMotor");
+        armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public double getPosition() {
+        return armMotor.getCurrentPosition();
     }
 
     public void teleOpRetract() {
-        armMotor.setPower(0.6);
+        armMotor.setPower(0.7);
     }
 
     public void teleOpExtend() {
-        armMotor.setPower(-0.6);
+        armMotor.setPower(-0.7);
     }
 
     public void stopArm() {
@@ -67,7 +74,8 @@ public class Arm {
 
     }
 
-    public void retract(int degrees) {
+    public void retract(double degrees) {
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         double distance = degrees / 360;
@@ -81,9 +89,11 @@ public class Arm {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(armMotor.isBusy());
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void extend(int degrees) {
+    public void extend(double degrees) {
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         double distance = degrees / 360;
@@ -97,6 +107,7 @@ public class Arm {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(armMotor.isBusy());
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void openClaw() {

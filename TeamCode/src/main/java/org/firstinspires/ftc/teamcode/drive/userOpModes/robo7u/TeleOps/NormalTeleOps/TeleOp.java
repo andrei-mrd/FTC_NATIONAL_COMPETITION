@@ -247,6 +247,22 @@ public class TeleOp extends LinearOpMode {
         }
     }
 
+    public void listenForArmEncoderMovement() {
+
+        if(gamepad2.dpad_up) {
+            mechanisms.arm.extend(210);
+        } else if(gamepad2.dpad_down) {
+            mechanisms.arm.retract(210);
+        }
+
+        //gionutz ti a lasat rame
+        if(gamepad2.a) {
+            mechanisms.arm.openClaw();
+        } else if(gamepad2.y) {
+            mechanisms.arm.closeClaw();
+        }
+    }
+
     public void listenForMechanisms() {
 
         listenForLimitsUpdates();
