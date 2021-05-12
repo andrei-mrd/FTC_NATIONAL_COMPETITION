@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 class Claw {
 
-    double closedPosition = 1, openedPosition = 0;
+    public final double closedPosition = 1, openedPosition = 0;
 
     HardwareMap hwMap;
     Servo clawServo;
@@ -17,6 +17,18 @@ class Claw {
         clawServo = hwMap.get(Servo.class, "clawServo");
 
         clawServo.setDirection(Servo.Direction.FORWARD);
+    }
+
+    public double getPosition() {
+        return clawServo.getPosition();
+    }
+
+    public double getOpenedPosition() {
+        return openedPosition;
+    }
+
+    public double getClosedPosition() {
+        return closedPosition;
     }
 
     public void closeClaw() {
@@ -44,6 +56,18 @@ public class Arm {
         armMotor = hwMap.get(DcMotor.class, "armMotor");
         armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public double getClawPosition() {
+        return claw.getPosition();
+    }
+
+    public double getClawOpenedPosition() {
+        return claw.getOpenedPosition();
+    }
+
+    public double getClawClosedPosition() {
+        return claw.getClosedPosition();
     }
 
     public double getPosition() {
@@ -89,7 +113,7 @@ public class Arm {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(armMotor.isBusy());
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void extend(double degrees) {
@@ -107,7 +131,7 @@ public class Arm {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(armMotor.isBusy());
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void openClaw() {

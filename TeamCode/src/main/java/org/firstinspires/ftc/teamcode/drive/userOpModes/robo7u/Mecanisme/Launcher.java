@@ -16,7 +16,7 @@ public class Launcher {
     double shootPosition = 0.65;
 
     double highGoalCap = 0.8;
-    double powerShotCap = 0.75;
+    double powerShotCap = 0.7;
 
     /**
      * Constructor pentru launcher, apelat de clasa shooter la initializarea

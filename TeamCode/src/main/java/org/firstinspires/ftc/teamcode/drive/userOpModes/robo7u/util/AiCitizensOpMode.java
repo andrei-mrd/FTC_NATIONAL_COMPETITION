@@ -44,7 +44,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
     public ElapsedTime runtime;
 
-    public ArrayList trajList;
+    public ArrayList<Trajectory> trajList;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -86,7 +86,8 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
         runtime.reset();
 
-        height = EasyOpenVision.getDetectedPosition();
+        //height = EasyOpenVision.getDetectedPosition();
+        height = 1;
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);
@@ -95,14 +96,14 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         if(culoare == Side.RED) {
             switch(height) {
                 case 0:
-                    runTraj(red0(), drive);
+                    runTraj0(red0(), drive);
                     break;
                 case 1:
-                    runTraj(red1(), drive);
+                    runTraj1(red1(), drive);
                     break;
                 case 4:
                 default:
-                    runTraj(red4(), drive);
+                    runTraj4(red0(), drive);
                     break;
             }
         }
@@ -110,14 +111,14 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         if(culoare == Side.BLUE) {
             switch(height) {
                 case 0:
-                    runTraj(blue0(), drive);
+                    runTraj0(blue0(), drive);
                     break;
                 case 1:
-                    runTraj(blue1(), drive);
+                    runTraj1(blue1(), drive);
                     break;
                 case 4:
                 default:
-                    runTraj(blue4(), drive);
+                    runTraj4(blue4(), drive);
                     break;
             }
         }
@@ -145,7 +146,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
     }
 
     @NotNull
-    public final ArrayList getTrajList() {
+    public final ArrayList<Trajectory> getTrajList() {
         return this.trajList;
     }
 
@@ -154,7 +155,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         this.trajList = lista;
     }
 
-    private final void runTraj(ArrayList trajectories, SampleMecanumDrive drive) {
+    private final void runTraj4(ArrayList<Trajectory> trajectories, SampleMecanumDrive drive) {
         Collection var3 = (Collection)trajectories;
         boolean var4 = false;
         if (!var3.isEmpty()) {
@@ -172,18 +173,170 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
     }
 
+    private final void runTraj1(ArrayList<Trajectory> trajectories, SampleMecanumDrive drive) {
+        Collection var3 = (Collection)trajectories;
+        boolean var4 = false;
+        if (!var3.isEmpty()) {
+            Iterator var6 = trajectories.iterator();
+
+            int counter = 0;
+
+            while(var6.hasNext()) {
+                com.acmerobotics.roadrunner.trajectory.Trajectory trajectory = (Trajectory)var6.next();
+                if (!this.opModeIsActive() || this.isStopRequested()) {
+                    break;
+                }
+
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.powerFlywheel(true);
+                }
+
+                if(counter == 3) {
+                    mechanisms.arm.extend(160);
+                }
+
+                if(counter == 4) {
+                    mechanisms.intake.powerOuttake(1);
+                    mechanisms.shooter.launcher.powerFlywheel(true);
+                }
+
+                drive.followTrajectory(trajectory);
+
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 1) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 2) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                    mechanisms.shooter.launcher.stopFlywheel();
+                }
+
+                if(counter == 3) {
+                    mechanisms.arm.closeClaw();
+                }
+
+                if(counter == 5) {
+                    sleep(650);
+                    mechanisms.intake.stopIntake();
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(200);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                    mechanisms.shooter.launcher.stopFlywheel();
+                }
+
+                if(counter == 6) {
+                    mechanisms.arm.extend(25);
+                }
+
+                if(counter == 7) {
+                    mechanisms.arm.openClaw();
+                    sleep(200);
+                    mechanisms.arm.retract(20);
+                }
+
+                if(counter == 8) {
+                    mechanisms.arm.closeClaw();
+                    sleep(400);
+                    mechanisms.arm.retract(50);
+                }
+
+                counter++;
+            }
+        }
+
+    }
+
+    private final void runTraj0(ArrayList<Trajectory> trajectories, SampleMecanumDrive drive) {
+        Collection var3 = (Collection)trajectories;
+        boolean var4 = false;
+        int counter = 0;
+        if (!var3.isEmpty()) {
+            Iterator var6 = trajectories.iterator();
+
+            while(var6.hasNext()) {
+
+                com.acmerobotics.roadrunner.trajectory.Trajectory trajectory = (Trajectory)var6.next();
+                if (!this.opModeIsActive() || this.isStopRequested()) {
+                    break;
+                }
+
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.powerFlywheel(true);
+                }
+
+                if(counter == 3) {
+                    mechanisms.arm.extend(160);
+                }
+
+                drive.followTrajectory(trajectory);
+
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 1) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 2) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                    mechanisms.shooter.launcher.stopFlywheel();
+                }
+
+                if(counter == 3) {
+                    mechanisms.arm.closeClaw();
+                }
+
+                if(counter == 4) {
+                    mechanisms.arm.extend(25);
+                }
+
+                if(counter == 5) {
+                    mechanisms.arm.openClaw();
+                    sleep(200);
+                    mechanisms.arm.retract(20);
+                }
+
+                if(counter == 6) {
+                    mechanisms.arm.closeClaw();
+                    sleep(400);
+                    mechanisms.arm.retract(50);
+                }
+
+                counter++;
+            }
+        }
+
+    }
+
     @NotNull
-    public ArrayList red0() {
+    public ArrayList<Trajectory> red0() {
         return this.trajList;
     }
 
     @NotNull
-    public ArrayList red1() {
+    public ArrayList<Trajectory> red1() {
         return this.trajList;
     }
 
     @NotNull
-    public ArrayList red4() {
+    public ArrayList<Trajectory> red4() {
         return this.trajList;
     }
 

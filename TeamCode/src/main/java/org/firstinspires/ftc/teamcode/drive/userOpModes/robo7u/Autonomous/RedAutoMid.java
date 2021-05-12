@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.drive.userOpModes.robo7u.util.AiCitizensOp
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import kotlin.jvm.internal.Intrinsics;
 
@@ -37,78 +38,46 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red0() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.powerFlywheel(true);
-                })
-                .splineTo(new Vector2d(0, -12), Math.toRadians(3))
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.moveToShootingPosition();
-                    sleep(250);
-                    mechanisms.shooter.launcher.moveToRetractedPosition();
-                })
+                .splineTo(new Vector2d(0, -13), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .strafeLeft(16)
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.moveToShootingPosition();
-                    sleep(250);
-                    mechanisms.shooter.launcher.moveToRetractedPosition();
-                })
+                .lineTo(new Vector2d(0, 4))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .strafeLeft(16)
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.moveToShootingPosition();
-                    sleep(250);
-                    mechanisms.shooter.launcher.moveToRetractedPosition();
-                    mechanisms.shooter.launcher.stopFlywheel();
-                    mechanisms.arm.extend(185);
-                })
+                .lineTo(new Vector2d(0, 19))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
                 .lineToSplineHeading(new Pose2d(12, -45, Math.toRadians(120)))
-                .addDisplacementMarker(() -> {
+                .build();
+
+        /*
+        .addDisplacementMarker(() -> {
                     mechanisms.arm.closeClaw();
                     sleep(200);
                     mechanisms.arm.retract(60);
                 })
                 .build();
+         */
 
-        Trajectory moveBack = drive.trajectoryBuilder(dropFirstWobble.end())
-                .forward(20)
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.retract(60);
-                })
+        Trajectory goToSecondWobble = drive.trajectoryBuilder(dropFirstWobble.end())
+                .lineToLinearHeading(new Pose2d(-72, -25, Math.toRadians(90)))
                 .build();
 
-        Trajectory getSecondWobble = drive.trajectoryBuilder(moveBack.end())
-                .back(5)
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.openClaw();
-                })
-                .build();
-
-        Trajectory goToSecondWobble = drive.trajectoryBuilder(moveBack.end())
-                .lineToLinearHeading(new Pose2d(-85, -12, Math.toRadians(90)))
-                .addDisplacementMarker(() -> {
+        /*
+        .addDisplacementMarker(() -> {
                     mechanisms.arm.extend(210);
                 })
+         */
+
+        Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
+                .back(15)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
-                .lineToLinearHeading(new Pose2d(20, -60, Math.toRadians(90)))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.closeClaw();
-                    sleep(400);
-                    mechanisms.arm.retract(50);
-                })
-                .build();
-
-        Trajectory moveBack2 = drive.trajectoryBuilder(dropSecondWobble.end())
-                .forward(30)
+                .lineToLinearHeading(new Pose2d(20, -45, Math.toRadians(90)))
                 .build();
 
         trajList.add(shootFirst);
@@ -116,10 +85,8 @@ public final class RedAutoMid extends AiCitizensOpMode {
         trajList.add(shootThird);
         trajList.add(dropFirstWobble);
         trajList.add(goToSecondWobble);
-        //trajList.add(getSecondWobble);
-        //trajList.add(moveBack);
-        //trajList.add(dropSecondWobble);
-        //trajList.add(moveBack2);
+        trajList.add(getSecondWobble);
+        trajList.add(dropSecondWobble);
 
         return getTrajList();
     }
@@ -128,72 +95,65 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red1() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.powerFlywheel(true);
-                })
-                .splineTo(new Vector2d(0, -20), Math.toRadians(0))
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                })
+                .splineTo(new Vector2d(0, -13), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .strafeLeft(8)
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                })
+                .lineTo(new Vector2d(0, 4))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .strafeLeft(8)
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                    mechanisms.shooter.launcher.stopFlywheel();
-
-                    mechanisms.arm.extend(100);
-                })
+                .lineTo(new Vector2d(0, 19))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
-                .splineToLinearHeading(new Pose2d(0, -60), Math.toRadians(180))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.extend(50);
-                    mechanisms.arm.openClaw();
-                })
+                .lineToSplineHeading(new Pose2d(55, -15, Math.toRadians(90)))
                 .build();
 
-        Trajectory moveBack = drive.trajectoryBuilder(dropFirstWobble.end())
-                .forward(10)
+        Trajectory takeRing = drive.trajectoryBuilder(dropFirstWobble.end())
+                .lineToSplineHeading(new Pose2d(-20, -27, Math.toRadians(0)))
                 .build();
 
-        Trajectory getSecondWobble = drive.trajectoryBuilder(moveBack.end())
-                .lineToLinearHeading(new Pose2d(-40, -55, Math.toRadians(0)))
-                .addDisplacementMarker(() -> {
+        Trajectory pushBack = drive.trajectoryBuilder(takeRing.end())
+                .lineToSplineHeading(new Pose2d(-32, -27, Math.toRadians(0)))
+                .build();
+
+        /*
+        .addDisplacementMarker(() -> {
                     mechanisms.arm.closeClaw();
-                    mechanisms.arm.retract(50);
+                    sleep(200);
+                    mechanisms.arm.retract(60);
                 })
+                .build();
+         */
+
+        Trajectory goToSecondWobble = drive.trajectoryBuilder(pushBack.end())
+                .lineToLinearHeading(new Pose2d(-60, -7, Math.toRadians(90)))
+                .build();
+
+        /*
+        .addDisplacementMarker(() -> {
+                    mechanisms.arm.extend(210);
+                })
+         */
+
+        Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
+                .back(15)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
-                .lineToLinearHeading(new Pose2d(0, -60, Math.toRadians(180)))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.openClaw();
-                    mechanisms.arm.retract(50);
-                })
-                .build();
-
-        Trajectory moveBack2 = drive.trajectoryBuilder(dropSecondWobble.end())
-                .forward(10)
+                .lineToLinearHeading(new Pose2d(55, -8, Math.toRadians(90)))
                 .build();
 
         trajList.add(shootFirst);
         trajList.add(shootSecond);
         trajList.add(shootThird);
         trajList.add(dropFirstWobble);
-        trajList.add(moveBack);
+        trajList.add(takeRing);
+        trajList.add(pushBack);
+        trajList.add(goToSecondWobble);
         trajList.add(getSecondWobble);
         trajList.add(dropSecondWobble);
-        trajList.add(moveBack2);
 
         return getTrajList();
     }
