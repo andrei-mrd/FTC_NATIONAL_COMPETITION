@@ -87,7 +87,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         runtime.reset();
 
         //height = EasyOpenVision.getDetectedPosition();
-        height = 1;
+        height = 4;
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);
@@ -103,7 +103,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                     break;
                 case 4:
                 default:
-                    runTraj4(red0(), drive);
+                    runTraj4(red4(), drive);
                     break;
             }
         }
@@ -161,13 +161,61 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         if (!var3.isEmpty()) {
             Iterator var6 = trajectories.iterator();
 
+            int counter = 0;
+
             while(var6.hasNext()) {
                 com.acmerobotics.roadrunner.trajectory.Trajectory trajectory = (Trajectory)var6.next();
                 if (!this.opModeIsActive() || this.isStopRequested()) {
                     break;
                 }
 
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.powerFlywheel(true);
+                }
+
                 drive.followTrajectory(trajectory);
+
+                if(counter == 0) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 1) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                }
+
+                if(counter == 2) {
+                    mechanisms.shooter.launcher.moveToShootingPosition();
+                    sleep(250);
+                    mechanisms.shooter.launcher.moveToRetractedPosition();
+                    mechanisms.shooter.launcher.stopFlywheel();
+                }
+
+                if(counter == 3) {
+                    mechanisms.arm.extend(170);
+                    mechanisms.arm.closeClaw();
+                    mechanisms.arm.retract(60);
+                }
+
+                if(counter == 4)  {
+                    mechanisms.arm.extend(60);
+                }
+
+                if(counter == 5) {
+                    mechanisms.arm.openClaw();
+                    sleep(400);
+                    mechanisms.arm.retract(60);
+                }
+
+                if(counter == 6) {
+                    mechanisms.arm.closeClaw();
+                    mechanisms.arm.retract(80);
+                }
+
+                counter++;
             }
         }
 
@@ -192,12 +240,13 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 3) {
-                    mechanisms.arm.extend(160);
+                    mechanisms.arm.extend(140);
                 }
 
                 if(counter == 4) {
                     mechanisms.intake.powerOuttake(1);
                     mechanisms.shooter.launcher.powerFlywheel(true);
+                    mechanisms.arm.extend(40);
                 }
 
                 drive.followTrajectory(trajectory);
@@ -235,13 +284,13 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 6) {
-                    mechanisms.arm.extend(25);
+                    mechanisms.arm.extend(15);
                 }
 
                 if(counter == 7) {
                     mechanisms.arm.openClaw();
                     sleep(200);
-                    mechanisms.arm.retract(20);
+                    mechanisms.arm.retract(60);
                 }
 
                 if(counter == 8) {

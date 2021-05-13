@@ -107,15 +107,15 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
-                .lineToSplineHeading(new Pose2d(55, -15, Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(55, -8, Math.toRadians(90)))
                 .build();
 
         Trajectory takeRing = drive.trajectoryBuilder(dropFirstWobble.end())
-                .lineToSplineHeading(new Pose2d(-20, -27, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-20, -20, Math.toRadians(0)))
                 .build();
 
         Trajectory pushBack = drive.trajectoryBuilder(takeRing.end())
-                .lineToSplineHeading(new Pose2d(-32, -27, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-32, -25, Math.toRadians(0)))
                 .build();
 
         /*
@@ -128,7 +128,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory goToSecondWobble = drive.trajectoryBuilder(pushBack.end())
-                .lineToLinearHeading(new Pose2d(-60, -7, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-69, -5, Math.toRadians(90)))
                 .build();
 
         /*
@@ -138,11 +138,11 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
-                .back(15)
+                .back(10)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
-                .lineToLinearHeading(new Pose2d(55, -8, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(15, -5, Math.toRadians(175)))
                 .build();
 
         trajList.add(shootFirst);
@@ -162,73 +162,62 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red4() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .addDisplacementMarker(() -> {
-                    mechanisms.shooter.launcher.powerFlywheel(true);
-                })
-                .splineTo(new Vector2d(0, -20), Math.toRadians(0))
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                })
+                .splineTo(new Vector2d(0, -13), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .strafeLeft(8)
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                })
+                .lineTo(new Vector2d(0, 4))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .strafeLeft(8)
-                .addDisplacementMarker(() -> {
-                    //mechanisms.shooter.launcher.shoot(runtime);
-                    mechanisms.shooter.launcher.stopFlywheel();
-
-                    mechanisms.arm.extend(100);
-                })
+                .lineTo(new Vector2d(0, 19))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
-                .splineToLinearHeading(new Pose2d(0, -60), Math.toRadians(180))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.extend(50);
-                    mechanisms.arm.openClaw();
-                })
+                .lineToSplineHeading(new Pose2d(65, -45, Math.toRadians(90)))
                 .build();
 
-        Trajectory moveBack = drive.trajectoryBuilder(dropFirstWobble.end())
-                .forward(10)
+
+        Trajectory goToSecondWobble = drive.trajectoryBuilder(dropFirstWobble.end())
+                .lineToLinearHeading(new Pose2d(-25, 0, Math.toRadians(-20)))
                 .build();
 
-        Trajectory getSecondWobble = drive.trajectoryBuilder(moveBack.end())
-                .lineToLinearHeading(new Pose2d(-40, -55, Math.toRadians(0)))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.closeClaw();
-                    mechanisms.arm.retract(50);
-                })
+        Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
+                .back(10)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
-                .lineToLinearHeading(new Pose2d(0, -60, Math.toRadians(180)))
-                .addDisplacementMarker(() -> {
-                    mechanisms.arm.openClaw();
-                    mechanisms.arm.retract(50);
+                .lineToLinearHeading(new Pose2d(60, -50, Math.toRadians(130)))
+                .build();
+
+        Trajectory park = drive.trajectoryBuilder(dropFirstWobble.end())
+                .forward(30)
+                .build();
+
+        /*
+        .addDisplacementMarker(() -> {
+                    mechanisms.arm.closeClaw();
+                    sleep(200);
+                    mechanisms.arm.retract(60);
                 })
                 .build();
+         */
 
-        Trajectory moveBack2 = drive.trajectoryBuilder(dropSecondWobble.end())
-                .forward(10)
-                .build();
+        /*
+        .addDisplacementMarker(() -> {
+                    mechanisms.arm.extend(210);
+                })
+         */
 
-        trajList.add(shootFirst);
-        trajList.add(shootSecond);
-        trajList.add(shootThird);
-        trajList.add(dropFirstWobble);
-        trajList.add(moveBack);
-        trajList.add(getSecondWobble);
-        trajList.add(dropSecondWobble);
-        trajList.add(moveBack2);
+        trajList.add(shootFirst); //0
+        trajList.add(shootSecond); //1
+        trajList.add(shootThird); //2
 
+        trajList.add(dropFirstWobble); //3
+        trajList.add(goToSecondWobble); //4
+        trajList.add(getSecondWobble); //5
+        trajList.add(dropSecondWobble); //6
+        trajList.add(park);
         return getTrajList();
     }
 }
