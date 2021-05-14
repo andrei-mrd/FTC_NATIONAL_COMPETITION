@@ -72,22 +72,26 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         }
 
         drive.setPoseEstimate(startPose);
-
         /*
+        while(height != 5) {
+            telemetry.addData("inaltime", height);
+            telemetry.update();
+        }
+        */
+
+/*
         while(height != 5) {
             height = EasyOpenVision.getDetectedPosition();
             telemetry.addData("Inaltime: ", height);
             telemetry.addData("Status: ", "Click play to start");
             telemetry.update();
         }
-         */
-
+*/
         waitForStart();
 
         runtime.reset();
 
-        //height = EasyOpenVision.getDetectedPosition();
-        height = 4;
+        height = EasyOpenVision.getDetectedPosition();
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);
@@ -353,19 +357,19 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 4) {
-                    mechanisms.arm.extend(25);
+                    mechanisms.arm.extend(20);
                 }
 
                 if(counter == 5) {
                     mechanisms.arm.openClaw();
                     sleep(200);
-                    mechanisms.arm.retract(20);
+                    mechanisms.arm.retract(30);
                 }
 
                 if(counter == 6) {
                     mechanisms.arm.closeClaw();
                     sleep(400);
-                    mechanisms.arm.retract(50);
+                    mechanisms.arm.retract(80);
                 }
 
                 counter++;
