@@ -288,7 +288,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 6) {
-                    mechanisms.arm.extend(15);
+                    mechanisms.arm.retract(8);
                 }
 
                 if(counter == 7) {
