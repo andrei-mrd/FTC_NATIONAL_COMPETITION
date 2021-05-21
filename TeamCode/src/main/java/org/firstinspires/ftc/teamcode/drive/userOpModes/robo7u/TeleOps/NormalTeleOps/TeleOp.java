@@ -117,14 +117,37 @@ public class TeleOp extends LinearOpMode {
             drive.toggleShooterFrontFace();
         }
 
+        /*
+        if(drive.getFace() == true) {
+            G1Y1 = -gamepad1.left_stick_y;
+            G1X1 = gamepad1.left_stick_x;
+            G1X2 = gamepad1.right_stick_x;
+
+            LF = G1Y1 + G1X1 - G1X2;
+            LR = G1Y1 - G1X1 - G1X2;
+            RF = G1Y1 - G1X1 + G1X2;
+            RR = G1Y1 + G1X1 + G1X2;
+        } else {
+            G1Y1 = -gamepad1.left_stick_y;
+            G1X1 = gamepad1.left_stick_x;
+            G1X2 = gamepad1.right_stick_x;
+
+            LF = G1Y1 + G1X1 + G1X2;
+            LR = G1Y1 - G1X1 + G1X2;
+            RF = G1Y1 - G1X1 - G1X2;
+            RR = G1Y1 + G1X1 - G1X2;
+        }
+
+         */
+
         G1Y1 = -gamepad1.left_stick_y;
         G1X1 = gamepad1.left_stick_x;
         G1X2 = gamepad1.right_stick_x;
 
-        LF = G1Y1 + G1X1 + G1X2;
-        LR = G1Y1 - G1X1 + G1X2;
-        RF = G1Y1 - G1X1 - G1X2;
-        RR = G1Y1 + G1X1 - G1X2;
+        LF = G1Y1 + G1X1 - G1X2;
+        LR = G1Y1 - G1X1 - G1X2;
+        RF = G1Y1 - G1X1 + G1X2;
+        RR = G1Y1 + G1X1 + G1X2;
 
         drive.setMotorPowers(LF, LR, RR, RF);
     }

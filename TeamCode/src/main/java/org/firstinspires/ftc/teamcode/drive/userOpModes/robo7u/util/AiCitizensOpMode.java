@@ -91,7 +91,8 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
         runtime.reset();
 
-        height = EasyOpenVision.getDetectedPosition();
+        //height = EasyOpenVision.getDetectedPosition();
+        height = 0;
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);
@@ -205,7 +206,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 4)  {
-                    mechanisms.arm.extend(60);
+                    mechanisms.arm.extend(80);
                 }
 
                 if(counter == 5) {
@@ -288,7 +289,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 6) {
-                    mechanisms.arm.retract(8);
+                    mechanisms.arm.extend(10);
                 }
 
                 if(counter == 7) {
@@ -328,7 +329,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 3) {
-                    mechanisms.arm.extend(160);
+                    mechanisms.arm.extend(170);
                 }
 
                 drive.followTrajectory(trajectory);

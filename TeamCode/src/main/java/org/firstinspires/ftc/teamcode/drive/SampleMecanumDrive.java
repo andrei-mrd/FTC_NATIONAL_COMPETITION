@@ -75,6 +75,8 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public static int POSE_HISTORY_LIMIT = 100;
 
+    public static boolean shooterFace = true;
+
     public enum Mode {
         IDLE,
         TURN,
@@ -206,11 +208,17 @@ public class SampleMecanumDrive extends MecanumDrive {
         mode = Mode.TURN;
     }
 
+    public boolean getFace() {
+        return shooterFace;
+    }
+
     public void toggleIntakeFrontFace() {
         SampleMecanumDrive.leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         SampleMecanumDrive.leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
         SampleMecanumDrive.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         SampleMecanumDrive.rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        shooterFace = false;
     }
 
     public void toggleShooterFrontFace() {
@@ -218,6 +226,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         SampleMecanumDrive.leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         SampleMecanumDrive.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         SampleMecanumDrive.rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        shooterFace = true;
     }
 
     public void turn(double angle) {
