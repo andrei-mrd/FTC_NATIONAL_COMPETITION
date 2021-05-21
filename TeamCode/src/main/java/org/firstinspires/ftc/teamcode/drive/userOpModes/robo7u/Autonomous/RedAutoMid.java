@@ -72,6 +72,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 })
          */
 
+
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
                 .back(11)
                 .build();
