@@ -9,8 +9,8 @@ public class ShooterLift {
     HardwareMap hwMap;
 
     double positionLeft, positionRight;
-    double bottomPositionLeft = 0.15, topPositionLeft = 0.2;
-    double bottomPositionRight = 0.15, topPositionRight = 0.2;
+    double bottomPositionLeft = 0.15, topPositionLeft = 0.22;
+    double bottomPositionRight = 0.15, topPositionRight = 0.22;
 
     //servo-uri privite din fata cu shooter-ul
     private Servo servoLeft;
