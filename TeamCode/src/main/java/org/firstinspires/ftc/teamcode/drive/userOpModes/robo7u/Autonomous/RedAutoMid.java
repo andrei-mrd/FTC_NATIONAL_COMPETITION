@@ -63,7 +63,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory goToSecondWobble = drive.trajectoryBuilder(dropFirstWobble.end())
-                .lineToLinearHeading(new Pose2d(-76, -6, Math.toRadians(80)))
+                .lineToLinearHeading(new Pose2d(-67, -6, Math.toRadians(80)))
                 .build();
 
         /*
@@ -74,7 +74,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
 
 
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
-                .back(11)
+                .back(13)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
@@ -112,11 +112,11 @@ public final class RedAutoMid extends AiCitizensOpMode {
                 .build();
 
         Trajectory takeRing = drive.trajectoryBuilder(dropFirstWobble.end())
-                .lineToSplineHeading(new Pose2d(-20, -20, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-20, -17, Math.toRadians(0)))
                 .build();
 
         Trajectory pushBack = drive.trajectoryBuilder(takeRing.end())
-                .lineToSplineHeading(new Pose2d(-32, -20, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-32, -17, Math.toRadians(0)))
                 .build();
 
         /*
@@ -129,7 +129,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory goToSecondWobble = drive.trajectoryBuilder(pushBack.end())
-                .lineToLinearHeading(new Pose2d(-67, 3, Math.toRadians(80)))
+                .lineToLinearHeading(new Pose2d(-59, 7, Math.toRadians(80)))
                 .build();
 
         /*
@@ -139,7 +139,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
-                .back(5)
+                .back(11)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
@@ -180,15 +180,15 @@ public final class RedAutoMid extends AiCitizensOpMode {
 
 
         Trajectory goToSecondWobble = drive.trajectoryBuilder(dropFirstWobble.end())
-                .lineToLinearHeading(new Pose2d(-25, 4, Math.toRadians(-31)))
+                .lineToLinearHeading(new Pose2d(-15, 4, Math.toRadians(0)))
                 .build();
 
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
-                .back(6)
+                .back(13)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
-                .lineToLinearHeading(new Pose2d(60, -36, Math.toRadians(100)))
+                .lineToLinearHeading(new Pose2d(60, -36, Math.toRadians(130)))
                 .build();
 
         Trajectory park = drive.trajectoryBuilder(dropFirstWobble.end())

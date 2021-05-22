@@ -245,13 +245,13 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
                 }
 
                 if(counter == 3) {
-                    mechanisms.arm.extend(140);
+                    mechanisms.arm.extend(150);
                 }
 
                 if(counter == 4) {
                     mechanisms.intake.powerOuttake(1);
                     mechanisms.shooter.launcher.powerFlywheel(true);
-                    mechanisms.arm.extend(40);
+                    mechanisms.arm.extend(30);
                 }
 
                 drive.followTrajectory(trajectory);
