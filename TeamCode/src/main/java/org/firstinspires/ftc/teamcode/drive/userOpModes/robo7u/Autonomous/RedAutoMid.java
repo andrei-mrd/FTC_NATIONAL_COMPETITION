@@ -29,6 +29,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
         return this.startPose;
     }
 
+
     public void setStartPose(@NotNull Pose2d var1) {
         Intrinsics.checkNotNullParameter(var1, "<set-?>");
         this.startPose = var1;
