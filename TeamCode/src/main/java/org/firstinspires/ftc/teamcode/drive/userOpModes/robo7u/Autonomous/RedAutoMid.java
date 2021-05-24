@@ -38,15 +38,15 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red0() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .splineTo(new Vector2d(0, -14), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -11), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .lineTo(new Vector2d(0, 5))
+                .lineTo(new Vector2d(0, 9))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .lineTo(new Vector2d(0, 23))
+                .lineTo(new Vector2d(0, 29))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
@@ -63,7 +63,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
          */
 
         Trajectory goToSecondWobble = drive.trajectoryBuilder(dropFirstWobble.end())
-                .lineToLinearHeading(new Pose2d(-67, -6, Math.toRadians(80)))
+                .lineToLinearHeading(new Pose2d(-77, -7, Math.toRadians(90)))
                 .build();
 
         /*
@@ -74,7 +74,7 @@ public final class RedAutoMid extends AiCitizensOpMode {
 
 
         Trajectory getSecondWobble = drive.trajectoryBuilder(goToSecondWobble.end())
-                .back(13)
+                .back(14)
                 .build();
 
         Trajectory dropSecondWobble = drive.trajectoryBuilder(getSecondWobble.end())
@@ -96,15 +96,15 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red1() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .splineTo(new Vector2d(0, -14), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -11), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .lineTo(new Vector2d(0, 5))
+                .lineTo(new Vector2d(0, 9))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .lineTo(new Vector2d(0, 23))
+                .lineTo(new Vector2d(0, 29))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
@@ -163,19 +163,19 @@ public final class RedAutoMid extends AiCitizensOpMode {
     @Override
     public ArrayList red4() {
         Trajectory shootFirst = drive.trajectoryBuilder(startPose)
-                .splineTo(new Vector2d(0, -14), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -11), Math.toRadians(0))
                 .build();
 
         Trajectory shootSecond = drive.trajectoryBuilder(shootFirst.end())
-                .lineTo(new Vector2d(0, 5))
+                .lineTo(new Vector2d(0, 9))
                 .build();
 
         Trajectory shootThird = drive.trajectoryBuilder(shootSecond.end())
-                .lineTo(new Vector2d(0, 23))
+                .lineTo(new Vector2d(0, 29))
                 .build();
 
         Trajectory dropFirstWobble = drive.trajectoryBuilder(shootThird.end())
-                .lineToSplineHeading(new Pose2d(65, -45, Math.toRadians(90)))
+                .lineToSplineHeading(new Pose2d(67, -35, Math.toRadians(100)))
                 .build();
 
 

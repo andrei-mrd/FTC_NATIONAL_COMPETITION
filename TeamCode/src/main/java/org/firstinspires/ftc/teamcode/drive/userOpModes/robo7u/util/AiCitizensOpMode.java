@@ -91,8 +91,8 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
         runtime.reset();
 
-        height = EasyOpenVision.getDetectedPosition();
-        //height = 0;
+        //height = EasyOpenVision.getDetectedPosition();
+        height = 4;
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);
