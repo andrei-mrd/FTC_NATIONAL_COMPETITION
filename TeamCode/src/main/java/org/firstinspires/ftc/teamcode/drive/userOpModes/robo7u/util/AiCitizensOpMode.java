@@ -68,7 +68,7 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
         mechanisms.arm.openClaw();
 
         if(culoare == Side.RED) {
-            startPose = new Pose2d(-63, -30, Math.toRadians(0));
+            startPose = new Pose2d(-63, -27, Math.toRadians(0));
         }
 
         drive.setPoseEstimate(startPose);
@@ -91,8 +91,8 @@ public abstract class AiCitizensOpMode extends LinearOpMode {
 
         runtime.reset();
 
-        //height = EasyOpenVision.getDetectedPosition();
-        height = 4;
+        height = EasyOpenVision.getDetectedPosition();
+        //height = 1;
         EasyOpenVision.closeCamera();
 
         telemetry.addData("Inaltime: ", height);

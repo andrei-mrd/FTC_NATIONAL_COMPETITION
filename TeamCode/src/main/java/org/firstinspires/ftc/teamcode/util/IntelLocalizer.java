@@ -49,6 +49,7 @@ public final class IntelLocalizer implements Localizer {
 
     public IntelLocalizer(@NotNull HardwareMap hardwareMap, @NotNull Pose2d startPose2d) {
         super();
+        //t265.initialize(hardwareMap);
         Intrinsics.checkNotNullParameter(hardwareMap, "hardwareMap");
         Intrinsics.checkNotNullParameter(startPose2d, "startPose2d");
     }

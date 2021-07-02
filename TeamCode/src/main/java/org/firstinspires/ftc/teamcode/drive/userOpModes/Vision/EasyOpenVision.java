@@ -16,7 +16,6 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp(name="Detection", group="Tests")
 public class EasyOpenVision
 {
     private static OpenCvCamera webcam;
